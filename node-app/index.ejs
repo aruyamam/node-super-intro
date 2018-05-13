@@ -12,7 +12,7 @@
   <div role="main">
     <p><%=content %></p>
     <p>
-      <table>
+      <table style="width:400px;">
         <tr>
           <th>伝言です！</th>
         </tr>
@@ -21,9 +21,13 @@
         </tr>
       </table>
     </p>
+    <p>your last message:<%= cookie_data %></p>
     <p>
       <form method="post" action="/" />
-      MESSAGE <input type="text" name="msg"><input type="submit" value="送信">
+      <p>
+        MESSAGE <input type="text" name="msg">
+        <input type="submit" value="送信">
+      </p>
     </p>
   </div>
 </body>
