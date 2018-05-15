@@ -1,0 +1,30 @@
+h1 {
+  color: #eee;
+  font-size: 60px;
+  text-align: left;
+  margin: 0px;
+}
+body {
+  margin: 5px;
+  color: #999;
+  font-size: 12px;
+}
+p {
+  font-size: 14px;
+  margin: 0px 20px;
+}
+table {
+  margin: 20px;
+}
+table tr th {
+  background-color: #999;
+  color: #fff;
+  text-align: center;
+  padding: 3px 10px;
+}
+table tr td {
+  background-color: #eee;
+  color: #666;
+  text-align: left;
+  padding: 3px 10px;
+}
