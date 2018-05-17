@@ -1,42 +1,31 @@
-const express = require('express'),
-      ejs = require('ejs'),
+const express    = require('express'),
+      ejs        = require('ejs'),
+      bodyParser = require('body-parser'),
 
-      app = express();
+      app        = express();
 
 app.engine('ejs', ejs.renderFile);
-
 app.use(express.static('public'));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // ※トップページ
 app.get('/', (req, res) => {
   const msg = 'This is Index Page!<br>'
-        + 'これは、トップページです。',
-        url = '/other?name=taro&pass=yamada';
+        + '※メッセージを書いて送信してください。';
 
   res.render('index.ejs', {
     title: 'Index',
     content: msg,
-    link: {
-      href: url,
-      text: '※別のページに移動'
-    }
   });
 });
 
-// ※otherページ
-app.get('/other', (req, res) => {
-  const name = req.query.name,
-        pass = req.query.pass,
-        msg = `あなたの名前は「${name}」<br>パスワードは「${pass}」です。`;
+// ※POST送信の処理
+app.post('/', (req, res) => {
+  const msg = `This is Posted Page!<br>あなたは「<b>${req.body.message}</b>」と送信しました。`
 
   res.render('index.ejs', {
-    title: 'other',
+    title: 'Posted',
     content: msg,
-    link: {
-      href: '/',
-      text: '※トップに戻る',
-    }
   });
 });
 
