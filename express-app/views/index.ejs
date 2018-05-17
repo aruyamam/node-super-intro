@@ -13,12 +13,16 @@
   </head>
   <div role="main">
     <p><%- content %></p>
-    <form action="/" method="post">
-      <p>
-        <input type="text" name="message">
-        <input type="submit" value="送信">
-      </p>
-    </form>
+    <p>
+      <table style="width:85%">
+        <% for (let key in data) { %>
+          <%- include('data_item', {
+            key,
+            val: data[key]
+          }) %>
+        <% } %>
+      </table>
+    </p>
   </div>
   
 </body>
