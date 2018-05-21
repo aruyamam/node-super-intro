@@ -4,6 +4,34 @@
   <meta http-equive="content-type" content="text/html; charset=UTF-8">
   <title><%= title %></title>
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="/jquery"></script>
+  <script>
+    $(document).ready(function () {
+      $('#btn').click(function () {
+        const n = $('#num').val();
+        $.getJSON('/ajax?id=' + n, function (json) {
+          const msg = `
+            <table>
+              <tr>
+                <th>名前</th>
+                <td>${json.name}</td>
+              </tr>
+              <tr>
+                <th>年齢</th>
+                <td>${json.age}</td>
+              </tr>
+              <tr>
+                <th>メール</th>
+                <td>${json.mail}</td>
+              </tr>
+            </table>
+          `;
+
+          $('#msg').html(msg);
+        });
+      });
+    });
+  </script>
 </head>
 <body>
 
@@ -12,10 +40,10 @@
   </head>
 
   <div role="main">
-    <p><%- content %></p>
+    <p id="msg"><%- content %></p>
     <form method="post" action="/hello/post">
-      <input type="text" name="message">
-      <input type="submit" value="送信">
+      <input type="text" name="num" id="num">
+      <input type="button" id="btn" value="GET!">
     </form>
   </div>
   
