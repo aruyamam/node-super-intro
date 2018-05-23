@@ -40,11 +40,18 @@
   </head>
 
   <div role="main">
-    <p id="msg"><%- content %></p>
-    <form method="post" action="/hello/post">
-      <input type="text" name="num" id="num">
-      <input type="button" id="btn" value="GET!">
-    </form>
+    <% if (content !== null) { %>
+      <ol>
+        <% for (var i in content) { %>
+          <% var obj = content[i]; %>
+          <li>
+            <a href="<%= obj.link %>">
+              <%= obj.title %>
+            </a>
+          </li>
+        <% } %>
+      </ol>
+    <% } %>
   </div>
   
 </body>

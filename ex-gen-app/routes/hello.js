@@ -1,31 +1,34 @@
 const express = require('express'),
-      router  = express.Router();
+      router  = express.Router(),
+
+      http = require('https'),
+      parseString = require('xml2js').parseString;
 
 router.get('/', (req, res, next) => {
-  let msg = '※何か書いて送信して下さい。';
-
-  if (req.session.message !== undefined) {
-    msg = 'Last Message: ' + req.session.message;
-  }
-
-  const data = {
-    title: 'Hello!',
-    content: msg,
+  const opt = {
+    host: 'news.yahoo.co.jp',
+    port: 443,
+    path: '/pickup/rss.xml',
   };
 
-  res.render('hello', data);
-});
+  http.get(opt, (res2) => {
+    let body = '';
+    
+    res2.on('data', (data) => {
+      body += data;
+    });
 
-router.post('/post', (req, res, next) => {
-  const msg = req.body['message'];
-  req.session.message = msg;
+    res2.on('end', () => {
+      parseString(body.trim(), (err, result) => {
+        const data = {
+          title: 'Hello!',
+          content: result.rss.channel[0].item,
+        };
 
-  const data = {
-    title: 'Hello!',
-    content: 'Last Message: ' + req.session.message,
-  };
-
-  res.render('hello', data);
+        res.render('hello', data);
+      });
+    });
+  });
 });
 
 module.exports = router;
