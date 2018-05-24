@@ -4,34 +4,6 @@
   <meta http-equive="content-type" content="text/html; charset=UTF-8">
   <title><%= title %></title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="/jquery"></script>
-  <script>
-    $(document).ready(function () {
-      $('#btn').click(function () {
-        const n = $('#num').val();
-        $.getJSON('/ajax?id=' + n, function (json) {
-          const msg = `
-            <table>
-              <tr>
-                <th>名前</th>
-                <td>${json.name}</td>
-              </tr>
-              <tr>
-                <th>年齢</th>
-                <td>${json.age}</td>
-              </tr>
-              <tr>
-                <th>メール</th>
-                <td>${json.mail}</td>
-              </tr>
-            </table>
-          `;
-
-          $('#msg').html(msg);
-        });
-      });
-    });
-  </script>
 </head>
 <body>
 
@@ -40,18 +12,17 @@
   </head>
 
   <div role="main">
-    <% if (content !== null) { %>
-      <ol>
-        <% for (var i in content) { %>
+    <table>
+      <% for (var i in content) { %>
+        <tr>
           <% var obj = content[i]; %>
-          <li>
-            <a href="<%= obj.link %>">
-              <%= obj.title %>
-            </a>
-          </li>
-        <% } %>
-      </ol>
-    <% } %>
+          <th><%= obj.id %></th>
+          <td><%= obj.name %></td>
+          <td><%= obj.mail %></td>
+          <td><%= obj.age %></td>
+        </tr>
+      <% } %>
+    </table>
   </div>
   
 </body>

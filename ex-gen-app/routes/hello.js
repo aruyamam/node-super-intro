@@ -1,34 +1,27 @@
 const express = require('express'),
       router  = express.Router(),
 
-      http = require('https'),
-      parseString = require('xml2js').parseString;
+      sqlite3 = require('sqlite3');
+
+const db = new sqlite3.Database('mydb.sqlite3');
 
 router.get('/', (req, res, next) => {
-  const opt = {
-    host: 'news.yahoo.co.jp',
-    port: 443,
-    path: '/pickup/rss.xml',
-  };
-
-  http.get(opt, (res2) => {
-    let body = '';
-    
-    res2.on('data', (data) => {
-      body += data;
-    });
-
-    res2.on('end', () => {
-      parseString(body.trim(), (err, result) => {
+  // データベースのシリアライズ
+  db.serialize(() => {
+    // レコードをすべて取り出す
+    db.all('select * from mydata', (err, rows) => {
+      // データベース完了時の処理
+      if (!err) {
         const data = {
           title: 'Hello!',
-          content: result.rss.channel[0].item,
+          content: rows,
         };
 
         res.render('hello', data);
-      });
+      }
     });
   });
+
 });
 
 module.exports = router;
