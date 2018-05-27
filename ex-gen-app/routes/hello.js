@@ -32,6 +32,24 @@ router.get('/add', (req, res, next) => {
   res.render('hello/add', data);
 });
 
+router.get('/show', (req, res, next) => {
+  const id = req.query.id;
+  db.serialize(() => {
+    const q = 'select * from mydata where id = ?';
+    db.get(q, [id], (err, row) => {
+      if (!err) {
+        const data = {
+          title: 'Hello/show',
+          content: 'id = ' + id + ' のレコード：',
+          mydata: row,
+        };
+
+        res.render('hello/show', data);
+      }
+    });
+  });
+});
+
 router.post('/add', (req, res, next) => {
   const nm = req.body.name,
         ml = req.body.mail,
