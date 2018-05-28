@@ -27,6 +27,11 @@ router.get('/add', (req, res, next) => {
   const data = {
     title: 'Hello/Add',
     content: '新しいレコードを入力',
+    form: {
+      name: '',
+      mail: '',
+      age: 0,
+    },
   };
 
   res.render('hello/add', data);
@@ -87,12 +92,40 @@ router.get('/delete', (req, res, next) => {
 });
 
 router.post('/add', (req, res, next) => {
-  const nm = req.body.name,
-        ml = req.body.mail,
-        ag = req.body.age;
+  const response = res;
 
-  // db.run('insert into mydata (name, mail,age) values (?, ?, ?)', nm, ml, ag);
-  res.redirect('/hello');
+  req.check('name', 'NAME は必ず入力してください。').notEmpty();
+  req.check('mail', 'MAIL はメールアドレスを記入してください。').isEmail();
+  req.check('age', 'AGE は年齢（整数）を入力してください。').isInt();
+
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      let res = '<ul class="error">';
+      const result_arr = result.array();
+
+      for (let n in result_arr) {
+        res += `<li>${result_arr[n].msg}</li>`;
+      }
+      res += '</ul>';
+
+      const data = {
+        title: 'Hello/Add',
+        content: res,
+        form: req.body,
+      };
+
+      response.render('hello/add', data);
+    }
+    else {
+      const nm = req.body.name,
+            ml = req.body.mail,
+            ag = req.body.age;
+
+      db.run('insert into mydata (name, mail, age) values (?, ?, ?)', nm, ml, ag);
+      response.redirect('/hello');
+    }
+  });
+
 });
 
 router.post('/edit', (req, res, next) => {
