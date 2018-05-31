@@ -1,23 +1,36 @@
 const express = require('express'),
       router  = express.Router(),
 
-      sqlite3 = require('sqlite3');
+      sqlite3 = require('sqlite3'),
+      knex = require('knex')({
+        dialect: 'sqlite3',
+        connection: {
+          filename: 'mydb.sqlite3',
+        },
+        useNullAsDefault: true,
+      }),
+      Bookshelf = require('bookshelf')(knex),
+
+      MyData = Bookshelf.Model.extend({
+        tableName: 'mydata',
+      });
 
 const db = new sqlite3.Database('mydb.sqlite3');
 
 router.get('/', (req, res, next) => {
-  // データベースのシリアライズ
-  db.serialize(() => {
-    // レコードをすべて取り出す
-    db.all('select * from mydata', (err, rows) => {
-      // データベース完了時の処理
-      if (!err) {
-        const data = {
-          title: 'Hello!',
-          content: rows,
-        };
+  new MyData().fetchAll().then((collection) => {
+    const data = {
+      title: 'Hello!',
+      content: collection.toArray(),
+    };
 
-        res.render('hello/index', data);
+    res.render('hello/index', data);
+  })
+  .catch((err) => {
+    res.status(500).json({
+      error: true,
+      data: {
+        message: err.message,
       }
     });
   });
