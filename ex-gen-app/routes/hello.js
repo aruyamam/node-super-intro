@@ -130,12 +130,11 @@ router.post('/add', (req, res, next) => {
       response.render('hello/add', data);
     }
     else {
-      const nm = req.body.name,
-            ml = req.body.mail,
-            ag = req.body.age;
-
-      db.run('insert into mydata (name, mail, age) values (?, ?, ?)', nm, ml, ag);
-      response.redirect('/hello');
+      new MyData(req.body)
+        .save()
+        .then((model) => {
+          response.redirect('/hello');
+        });
     }
   });
 
