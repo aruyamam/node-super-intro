@@ -17,6 +17,7 @@ const express = require('express'),
 
 const db = new sqlite3.Database('mydb.sqlite3');
 
+// GET
 router.get('/', (req, res, next) => {
   new MyData().fetchAll().then((collection) => {
     const data = {
@@ -104,6 +105,18 @@ router.get('/delete', (req, res, next) => {
   });
 });
 
+router.get('/find', (req, res, next) => {
+  const data = {
+    title  : '/Hello/Find',
+    content: '検索IDを入力：',
+    form   : { fstr: '' },
+    mydata : null,
+  };
+
+  res.render('hello/find', data);
+});
+
+// POST
 router.post('/add', (req, res, next) => {
   const response = res;
 
@@ -157,6 +170,22 @@ router.post('/delete', (req, res, next) => {
 
     db.run(q, id);
     res.redirect('/hello');
+});
+
+router.post('/find', (req, res, next) => {
+  new MyData()
+    .where('id', '=', req.body.fstr)
+    .fetch()
+    .then((collection) => {
+      const data = {
+        title: 'Hello!',
+        content: '※id = ' + req.body.fstr + ' の検索結果：',
+        form: req.body,
+        mydata: collection,
+      };
+
+      res.render('hello/find', data);
+    });
 });
 
 module.exports = router;
