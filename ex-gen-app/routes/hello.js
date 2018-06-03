@@ -15,6 +15,8 @@ const express = require('express'),
         tableName: 'mydata',
       });
 
+Bookshelf.plugin('pagination');
+
 const db = new sqlite3.Database('mydb.sqlite3');
 
 // GET
@@ -114,6 +116,35 @@ router.get('/find', (req, res, next) => {
   };
 
   res.render('hello/find', data);
+});
+
+router.get('/:page', (req, res, next) => {
+  let pg = req.params.page;
+  pg *= 1;
+  if (pg < 1) { pg = 1; }
+
+  new MyData()
+    .fetchPage({
+      page: pg,
+      pageSize: 3,
+    })
+    .then((collection) => {
+      const data = {
+        title: 'Hello!',
+        content: collection.toArray(),
+        pagination: collection.pagination,
+      };
+
+      console.log(collection.pagination);
+      res.render('hello/index', data);
+    })
+    .catch((err) => {
+      res.status(500)
+        .json({
+          error: true,
+          data: { message: err.message },
+        });
+    });
 });
 
 // POST
