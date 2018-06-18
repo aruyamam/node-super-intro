@@ -1,0 +1,54 @@
+body {
+  padding: 50px;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #999999;
+  margin: 5px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+a.home {
+  color: white;
+  text-decoration: none;
+}
+
+p {
+  margin: 0 20px;
+}
+
+h1 {
+  font-size: 60pt;
+  color: #eeeeee;
+  text-align: right;
+  margin: 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+table {
+  margin: 20px;
+}
+
+table tr th {
+  background-color: #999999;
+  color: #ffffff;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+table tr td {
+  background-color: #eeeeee;
+  color: #666666;
+  text-align-last: left;
+  padding: 5px 10px;
+}
+
+.error {
+  color: red;
+}
+
