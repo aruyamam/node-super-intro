@@ -1,16 +1,15 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-// var favicon = require('serve-favicon');
+var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
-// var bodyParser = require('body-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var validator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-// var home = require('./routes/home');
+var home = require('./routes/home');
 
 var app = express();
 
@@ -33,9 +32,9 @@ var session_opt = {
 };
 app.use(session(session_opt));
 
-app.use('/', index);
 app.use('/users', users);
-// app.use('/home', home);
+app.use('/', index);
+app.use('/home', home);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

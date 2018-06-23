@@ -25,8 +25,17 @@ var Message = Bookshelf.Model.extend({
   },
 });
 
+router.get('/', (req, res, next) => {
+  if (req.session.login == null) {
+    res.redirect('/users');
+  }
+  else {
+    res.redirect('/1');
+  }
+});
+
 router.get('/:page', (req, res, next) => {
-  if (req.session.login === null) {
+  if (req.session.login == null) {
     res.redirect('/users');
     return;
   }

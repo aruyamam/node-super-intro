@@ -77,7 +77,7 @@ router.get('/', (req, res, next) => {
     },
     content: '名前とパスワードを入力してください。',
   };
-  res.reder('users/login', data);
+  res.render('users/login', data);
 });
 
 router.post('/', (req, res, next) => {
