@@ -24,17 +24,19 @@
           <% } %>
         </table>
       </p>
-      <% if (pagination.page > 1) { %>
-        <span><a href="/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>
-      <% } else { %>
-        <span>&lt;&lt; prev</span>
-      <% } %>
-      |
-      <% if (pagination.page > pagination.pageCount) { %>
-        <span><a href="/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>
-      <% } else { %>
-        <span>Next &gt;&gt;</span>
-      <% } %>
+      <p>
+        <% if (pagination.page > 1) { %>
+          <span><a href="/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>
+        <% } else { %>
+          <span>&lt;&lt; prev</span>
+        <% } %>
+        |
+        <% if (pagination.page > pagination.pageCount) { %>
+          <span><a href="/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>
+        <% } else { %>
+          <span>Next &gt;&gt;</span>
+        <% } %>
+      </p>
     </div>
     
   </body>

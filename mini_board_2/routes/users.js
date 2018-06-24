@@ -43,8 +43,8 @@ router.post('/add', (req, res, next) => {
     .getValidationResult()
     .then((result) => {
       if (!result.isEmpty()) {
-        const content = '<ul class="error">',
-              result_arr = result.array();
+        let content = '<ul class="error">',
+            result_arr = result.array();
 
         for (let n in result_arr) {
           content += `<li>${result_arr[n].msg}</li>`;
@@ -93,7 +93,7 @@ router.post('/', (req, res, next) => {
     .getValidationResult()
     .then((result) => {
       if (!result.isEmpty()) {
-        const content = '<ul class="error">',
+        let content = '<ul class="error">',
               result_arr = result.array();
 
         for (let n in result_arr) {
@@ -117,7 +117,7 @@ router.post('/', (req, res, next) => {
         })
         .fetch()
         .then((model) => {
-          if (model === null) {
+          if (model == null) {
             const data = {
               title: '再入力',
               content: '<p class="error">名前またはパスワードが違います。</p>',
