@@ -11,6 +11,8 @@ const knex = require('knex')({
 
 const Bookshelf = require('bookshelf')(knex);
 
+Bookshelf.plugin('pagination');
+
 const User = Bookshelf.Model.extend({
   tableName: 'users',
 });
