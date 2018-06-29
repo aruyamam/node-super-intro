@@ -28,7 +28,7 @@ const Markdata = Bookshelf.Model.extend({
 });
 
 
-Router.get('/', (req, res, next) => {
+router.get('/', (req, res, next) => {
   if (req.session.login === null) {
     res.redirect('/login');
     return;

@@ -4,7 +4,7 @@ const router = express.Router();
 const markdown = require('markdown').markdown;
 
 const knex = require('knex')({
-  dealect: 'sqlite3',
+  dialect: 'sqlite3',
   connection: {
     filename: 'mark_data.sqlite3',
   },
@@ -28,7 +28,7 @@ const Markdata = Bookshelf.Model.extend({
 });
 
 router.get('/', (req, res, next) => {
-  if (req.session.login === null) {
+  if (req.session.login == null) {
     res.redirect('/login');
     return;
   }
@@ -55,9 +55,9 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   new Markdata()
     .orderBy('created_at', 'DESC')
-    .where('content', 'like', '%' + req.body.find + '$')
+    .where('content', 'like', '%' + req.body.find + '%')
     .fetchAll({
-      widthRelated: ['user']
+      withRelated: ['user']
     })
     .then(collection => {
       const data = {
@@ -69,11 +69,6 @@ router.post('/', (req, res, next) => {
       };
       res.render('index', data);
     });
-});
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
 });
 
 module.exports = router;

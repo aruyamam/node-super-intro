@@ -1,6 +1,8 @@
 const express = require('express'),
       router = express.Router();
 
+var markdown = require('markdown').markdown;
+
 const knex = require('knex')({
   dialect: 'sqlite3',
   connection: {
@@ -53,13 +55,13 @@ router.post('/:id', (req, res, next) => {
   const request = req,
         response = res,
         obj = new Markdata({ id: req.params.id })
-                .save(
-                  { content: req.body.source },
-                  { patch: true },
-                )
-                .then(model => {
-                  makepage(request, response, model, false);
-                });
+        .save(
+          { content: req.body.source },
+          { patch: true },
+        )
+        .then(model => {
+          makepage(request, response, model, false);
+        });
 });
 
 function makepage(req, res, model, flg) {
